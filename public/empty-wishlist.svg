@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Heart outline -->
+    <path d="M100 180C100 180 20 140 20 80C20 50 40 30 70 30C90 30 100 50 100 50C100 50 110 30 130 30C160 30 180 50 180 80C180 140 100 180 100 180Z" stroke="#E5E7EB" stroke-width="4"/>
+    
+    <!-- Plus sign -->
+    <path d="M100 70V90" stroke="#E5E7EB" stroke-width="4" stroke-linecap="round"/>
+    <path d="M90 80H110" stroke="#E5E7EB" stroke-width="4" stroke-linecap="round"/>
+    
+    <!-- Decorative dots -->
+    <circle cx="60" cy="60" r="2" fill="#E5E7EB"/>
+    <circle cx="140" cy="60" r="2" fill="#E5E7EB"/>
+    <circle cx="80" cy="120" r="2" fill="#E5E7EB"/>
+    <circle cx="120" cy="120" r="2" fill="#E5E7EB"/>
+</svg> 

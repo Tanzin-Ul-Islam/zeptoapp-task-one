@@ -1,9 +1,13 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { FiUpload } from "react-icons/fi";
-
+import useFont from "../../hook/useFont";
+import Toast from "../../utils/toast";
 const FileUpload = () => {
+  const { usePostFont } = useFont();
+  const { mutate, isPending, isSuccess, isError } = usePostFont();
   const [isDragging, setIsDragging] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
+  const fileInputRef = useRef(null);
 
   const handleDragEnter = useCallback((e) => {
     e.preventDefault();
@@ -33,12 +37,40 @@ const FileUpload = () => {
     }
   }, []);
 
-  const handleFileChange = useCallback((e) => {
-    const file = e.target.files[0];
-    if (file && file.name.endsWith(".ttf")) {
-      setSelectedFile(file);
+  const handleFileChange = useCallback(
+    (e) => {
+      const file = e.target.files[0];
+      if (file && file.name.endsWith(".ttf")) {
+        setSelectedFile(file);
+      }
+    },
+    [selectedFile]
+  );
+
+  const handleClearFile = useCallback(() => {
+    setSelectedFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = null;
     }
   }, []);
+
+  const handleUploadFile = useCallback(() => {
+    if (!selectedFile) return;
+
+    const formData = new FormData();
+    formData.append("fontName", selectedFile.name.replace(".ttf", ""));
+    formData.append("fontFile", selectedFile);
+
+    mutate(formData, {
+      onSuccess: () => {
+        Toast("success", "File uploaded successfully");
+        handleClearFile();
+      },
+      onError: () => {
+        Toast("error", "Something went wrong. Please try again.");
+      },
+    });
+  }, [selectedFile, mutate, handleClearFile]);
 
   return (
     <div className="flex flex-col items-center justify-center p-4 w-full">
@@ -59,6 +91,7 @@ const FileUpload = () => {
           className="hidden"
           accept=".ttf"
           onChange={handleFileChange}
+          ref={fileInputRef}
         />
         <label
           htmlFor="file-upload"
@@ -66,15 +99,35 @@ const FileUpload = () => {
         >
           <FiUpload className="h-16 w-16 text-gray-400" />
           <p className="text-gray-600 text-lg">
-            Click to upload or drag and drop
+            {selectedFile?.name ? (
+              selectedFile?.name
+            ) : (
+              <>Click to upload or drag and drop</>
+            )}
           </p>
           <p className="text-sm text-gray-500">Only TTF File Allowed</p>
         </label>
       </div>
 
       {selectedFile && (
-        <div className="mt-4 p-3 bg-green-50 text-green-700 rounded-md w-full text-center">
-          Selected file: {selectedFile.name}
+        <div className="mt-4 w-[70%] flex flex-col items-center gap-4">
+          <div className="p-3 bg-green-50 text-green-700 rounded-md w-full text-center flex items-center justify-between">
+            <span>Selected file: {selectedFile.name}</span>
+            <div className="flex gap-2">
+              <button
+                onClick={() => handleClearFile()}
+                className="px-2 py-1 text-sm bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => handleUploadFile()}
+                className="px-2 py-1 text-sm bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
+              >
+                Upload
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

@@ -10,6 +10,8 @@ setCorsHeaders();
 // Set JSON headers for API responses
 setJsonHeaders();
 
+echo "test";
+
 // Create uploads directory if it doesn't exist
 if (!file_exists(__DIR__ . '/../uploads/fonts')) {
   mkdir(__DIR__ . '/../uploads/fonts', 0777, true);
@@ -25,6 +27,9 @@ try {
 
   $fontName = $_POST['fontName'] ?? null;
   $fontFile = $_FILES['fontFile'] ?? null;
+
+  echo $fontName;
+  echo $fontFile;
 
   if (!$fontName || !$fontFile) {
     http_response_code(400);

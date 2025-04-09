@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import api from "../../api/api.json";
 export default function DisplayFont({ font }) {
   useEffect(() => {
     const styleElement = document.createElement("style");

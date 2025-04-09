@@ -2,14 +2,27 @@ import React, { useState } from "react";
 import BrowseFile from "../component/BrowseFile";
 import useFont from "../hook/useFont";
 import DisplayFont from "../component/DisplayFont";
+import Toast from "../utils/toast";
 export default function Home() {
-  const { useFontQuery } = useFont();
+  const { useFontQuery, useDeleteFont } = useFont();
   const { data, isLoading, isError } = useFontQuery;
   console.log(data);
   const { data: fonts = [] } = data || {};
+  const { mutate: deleteFont } = useDeleteFont();
+  const handleDeleteFont = (id) => {
+    deleteFont(id, {
+      onSuccess: () => {
+        Toast("success", "File uploaded successfully");
+      },
+      onError: () => {
+        Toast("error", "Something went wrong. Please try again.");
+      },
+    });
+  };
   return (
     <div>
       <BrowseFile />
+
       <div className="w-[69%] mx-auto border-2 mx-auto p-6">
         <h1 className="text-2xl font-bold text-gray-800 mb-6">Our Fonts</h1>
         <p className="text-gray-600 mb-8">
@@ -53,7 +66,9 @@ export default function Home() {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right">
                     <button
-                      onClick={() => {}}
+                      onClick={() => {
+                        handleDeleteFont(font?.id);
+                      }}
                       className="text-red-600 hover:text-red-900 font-medium"
                     >
                       Delete

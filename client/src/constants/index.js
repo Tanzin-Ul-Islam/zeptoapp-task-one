@@ -1,5 +1,4 @@
 export default {
-  HOME_LIMIT: 32,
-  WISHLIST_LIMIT: 4,
+  BASE_URL: "http://localhost:8000/api",
 };
 

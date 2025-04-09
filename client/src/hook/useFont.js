@@ -1,5 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
-import { getData } from "../api/api-core";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { deleteData, getData, postFormData } from "../api/api-core";
 import api from "../api/api.json";
 
 const useFont = () => {
@@ -8,15 +8,45 @@ const useFont = () => {
     let url = api.getAllFonts;
     return await getData({ url });
   };
+  const postFont = async (formData) => {
+    let url = api.createFonts;
+    return await postFormData({ url, formData });
+  };
+  const deleteFont = async (id) => {
+    let url = api.deleteFonts;
+    return await deleteData({ url, id });
+  };
 
   const useFontQuery = useQuery({
     queryKey: ["font"],
     queryFn: fetchFonts,
     keepPreviousData: true,
   });
+  const usePostFont = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+      mutationFn: postFont,
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["font"] });
+      },
+    });
+  };
+
+  const useDeleteFont = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+      mutationFn: deleteFont,
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["font"] });
+      },
+    });
+  };
 
   return {
     useFontQuery,
+    usePostFont,
+    useDeleteFont,
   };
 };
 

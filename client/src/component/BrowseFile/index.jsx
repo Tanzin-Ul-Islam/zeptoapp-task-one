@@ -43,7 +43,7 @@ const FileUpload = () => {
   return (
     <div className="flex flex-col items-center justify-center p-4 w-full">
       <div
-        className={`w-1/2 mx-auto border-2 border-dashed rounded-lg p-12 text-center transition-colors ${
+        className={`w-[70%] mx-auto border-2 border-dashed rounded-lg p-12 text-center transition-colors ${
           isDragging
             ? "border-blue-500 bg-blue-50"
             : "border-gray-300 hover:border-gray-400"

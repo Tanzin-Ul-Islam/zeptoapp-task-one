@@ -1,9 +1,10 @@
 export async function getData({ url }) {
+  const baseUrl = "http://localhost:8000/api";
   const headers = {
     "Content-Type": "application/json",
   };
-
-  const response = await fetch(url, {
+  const fullUrl = baseUrl + url;
+  const response = await fetch(fullUrl, {
     headers,
     method: "GET",
   });

@@ -1,9 +1,4 @@
+# /api/fonts/.htaccess
 RewriteEngine On
-RewriteBase /
-
-# Redirect /api/fonts/get_all → /api/get_all.php
-RewriteRule ^api/fonts/get_all$ api/get_all.php [L,QSA]
-
-# Prevent direct access to .php files (optional security)
-RewriteCond %{THE_REQUEST} \.php [NC]
-RewriteRule ^ - [F,L]
+RewriteRule ^get_all$ get_all.php [L]
+RewriteRule ^delete$ delete.php [L]

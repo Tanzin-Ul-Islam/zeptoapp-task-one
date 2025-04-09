@@ -2,14 +2,12 @@ import React, { useState } from "react";
 import { AiOutlineClose, AiOutlineHeart, AiOutlineMenu } from "react-icons/ai";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "motion/react";
-import useWishlist from "../hook/useWishlist";
 const navLinks = [
   { title: "Home", path: "/" },
   { title: "Wishlist", path: "/wishlist" },
 ];
 
 export default function Navbar() {
-  const { wishlistCounter } = useWishlist();
   const [nav, setNav] = useState(false);
   const location = useLocation();
   const toggleNav = () => setNav(!nav);
@@ -36,7 +34,7 @@ export default function Navbar() {
                       <span className="relative">
                         <AiOutlineHeart size={24} />
                         <span className="absolute -top-1 -right-2 bg-blue-600 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-                          {wishlistCounter}
+                          {0}
                         </span>
                       </span>
                     )}
@@ -58,7 +56,7 @@ export default function Navbar() {
           <Link to="/wishlist" className="text-white/70 relative">
             <AiOutlineHeart size={24} />
             <span className="absolute -top-2 -right-2 bg-blue-600 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-              {wishlistCounter}
+              {0}
             </span>
           </Link>
           <button

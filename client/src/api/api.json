@@ -1,3 +1,7 @@
+
 {
-    "bookUrl": "https://gutendex.com/books"
+    "baseUrl": "http://localhost:8000",
+    "createFonts": "/create_font.php",
+    "getAllFonts": "/get_all_fonts.php",
+    "deleteFonts": "/delete_font.php"
 }

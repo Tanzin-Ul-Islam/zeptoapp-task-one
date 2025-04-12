@@ -17,6 +17,7 @@ export async function getData({ url }) {
 }
 
 export async function postData({ url, payLoad }) {
+  console.log('payLoad in fetch', payLoad)
   const fullUrl = constants.BASE_URL + url;
   const response = await fetch(fullUrl, {
     method: "POST",

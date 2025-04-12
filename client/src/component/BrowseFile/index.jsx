@@ -3,8 +3,8 @@ import { FiUpload } from "react-icons/fi";
 import useFont from "../../hook/useFont";
 import Toast from "../../utils/toast";
 const FileUpload = () => {
-  const { usePostFont } = useFont();
-  const { mutate, isPending, isSuccess, isError } = usePostFont();
+  const { usePostFontQuery } = useFont();
+  const { mutate, isPending, isSuccess, isError } = usePostFontQuery();
   const [isDragging, setIsDragging] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const fileInputRef = useRef(null);

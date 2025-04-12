@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import Toast from "../../utils/toast";
+import useFontGroup from "../../hook/useFontGroup";
 export default function FontGroupForm({ fontList }) {
+  const { usePostFontGroupQuery } = useFontGroup();
+  const { mutate, isPending, isSuccess, isError } = usePostFontGroupQuery();
+
   const [groupTitle, setGroupTitle] = useState("");
   const [fonts, setFonts] = useState([{ id: "", name: "" }]);
 
@@ -42,20 +46,40 @@ export default function FontGroupForm({ fontList }) {
     });
   };
 
+  const handleClearFields = () => {
+    setGroupTitle("");
+    setFonts([{ id: "", name: "" }]);
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isValid()) {
-      const fontGroup = {
-        title: groupTitle,
-        fonts: fonts.map((font) => ({ id: font.id, name: font.name })),
+      const payLoad = {
+        name: groupTitle,
+        fonts: fonts.map((font) => font.id),
       };
-      console.log("Font Group Created:", fontGroup);
+      mutate(payLoad, {
+        onSuccess: (data) => {
+          if (data?.success) {
+            Toast("success", data?.message || "Group created successfully");
+            handleClearFields();
+          } else {
+            Toast(
+              "error",
+              data?.message || "Something went wrong. Please try again."
+            );
+          }
+        },
+        onError: () => {
+          Toast("error", "Something went wrong. Please try again.");
+        },
+      });
     }
     return;
-  };
+  }
 
   return (
-    <div className="w-full md:w-[69%] mx-auto border-2 p-4 sm:p-6">
+    <div className="w-full md:w-[69%] mx-auto border-2 p-4 sm:p-6 mb-4">
       <h1 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6">
         Create Font Group
       </h1>

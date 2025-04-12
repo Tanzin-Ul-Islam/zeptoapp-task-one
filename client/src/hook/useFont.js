@@ -10,7 +10,7 @@ const useFont = () => {
   };
   const postFont = async (formData) => {
     let url = api.createFonts;
-    return await postData({ url, formData });
+    return await postData({ url, payLoad: formData });
   };
   const deleteFont = async (id) => {
     let url = api.deleteFonts;
@@ -22,7 +22,7 @@ const useFont = () => {
     queryFn: fetchFonts,
     keepPreviousData: true,
   });
-  const usePostFont = () => {
+  const usePostFontQuery = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
@@ -36,7 +36,7 @@ const useFont = () => {
     });
   };
 
-  const useDeleteFont = () => {
+  const useDeleteFontQuery = () => {
     const queryClient = useQueryClient();
     return useMutation({
       mutationFn: deleteFont,
@@ -48,8 +48,8 @@ const useFont = () => {
 
   return {
     useFontQuery,
-    usePostFont,
-    useDeleteFont,
+    usePostFontQuery,
+    useDeleteFontQuery,
   };
 };
 

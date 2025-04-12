@@ -66,7 +66,8 @@ try {
         'success' => true,
         'group_id' => $groupId,
         'name' => $groupName,
-        'fonts_added' => $fontsAdded
+        'fonts_added' => $fontsAdded,
+        'message' => 'Group created successfully.'
     ]);
 
 } catch(PDOException $e) {

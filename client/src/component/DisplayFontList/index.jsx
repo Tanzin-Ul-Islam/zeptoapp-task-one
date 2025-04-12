@@ -4,12 +4,12 @@ import Toast from "../../utils/toast";
 import DisplayFont from "../DisplayFont";
 
 export default function DisplayFontList({ fonts }) {
-  const { useDeleteFont } = useFont();
-  const { mutate: deleteFont } = useDeleteFont();
+  const { useDeleteFontQuery } = useFont();
+  const { mutate: deleteFont } = useDeleteFontQuery();
   const handleDeleteFont = (id) => {
     deleteFont(id, {
       onSuccess: () => {
-        Toast("success", "File uploaded successfully");
+        Toast("success", "Font deleted successfully");
       },
       onError: () => {
         Toast("error", "Something went wrong. Please try again.");

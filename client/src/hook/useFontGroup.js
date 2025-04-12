@@ -1,23 +1,23 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { deleteData, getData, postFormData } from "../api/api-core";
+import { deleteData, getData, postData } from "../api/api-core";
 import api from "../api/api.json";
 
 const useFontGroup = () => {
   const fetchFontGroups = async ({ queryKey }) => {
     const [_key] = queryKey;
-    let url = api.getAllFonts;
+    let url = api.getAllFontGroup;
     return await getData({ url });
   };
-  const postFontGroup = async (payload) => {
-    let url = api.createFonts;
-    return await postFormData({ url, payload });
+  const postFontGroup = async (payLoad) => {
+    let url = api.createFontGroup;
+    return await postData({ url, payLoad: JSON.stringify(payLoad), });
   };
   const deleteFontGroup = async (id) => {
-    let url = api.deleteFonts;
+    let url = api.deleteFontGroup;
     return await deleteData({ url, id });
   };
 
-  const useFontQuery = useQuery({
+  const useFontGroupQuery = useQuery({
     queryKey: ["font_group"],
     queryFn: fetchFontGroups,
     keepPreviousData: true,
@@ -40,13 +40,13 @@ const useFontGroup = () => {
     return useMutation({
       mutationFn: deleteFontGroup,
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["font"] });
+        queryClient.invalidateQueries({ queryKey: ["font_group"] });
       },
     });
   };
 
   return {
-    useFontQuery,
+    useFontGroupQuery,
     usePostFontGroupQuery,
     useDeleteFontGroup,
   };

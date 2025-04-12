@@ -1,6 +1,8 @@
-
 {
     "createFonts": "/font/create_font.php",
+    "createFontGroup": "/font_group/create.php",
     "getAllFonts": "/font/get_all_fonts.php",
-    "deleteFonts": "/font/delete_font.php"
+    "getAllFontGroup": "/font_group/get_all.php",
+    "deleteFonts": "/font/delete_font.php",
+    "deleteFontGroup": "/font_group/delete.php"
 }

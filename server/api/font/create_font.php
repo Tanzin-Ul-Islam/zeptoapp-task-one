@@ -1,7 +1,7 @@
 <?php
-require_once __DIR__ . '/../config/headers.php';
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../config/db_helper.php';
+require_once __DIR__ . '/../../config/headers.php';
+require_once __DIR__ . '/../../config/database.php';
+require_once __DIR__ . '/../../config/db_helper.php';
 
 // Handle preflight requests first
 handlePreflight();
@@ -11,8 +11,8 @@ setCorsHeaders();
 setJsonHeaders();
 
 // Create uploads directory if it doesn't exist
-if (!file_exists(__DIR__ . '/../uploads/fonts')) {
-  mkdir(__DIR__ . '/../uploads/fonts', 0777, true);
+if (!file_exists(__DIR__ . '/../../uploads/fonts')) {
+  mkdir(__DIR__ . '/../../uploads/fonts', 0777, true);
 }
 
 try {
@@ -59,7 +59,7 @@ try {
   $filePath = '/uploads/fonts/' . $fileName;
   
   // Correct path for file upload
-  $uploadDir = __DIR__ . '/../uploads/fonts/';
+  $uploadDir = __DIR__ . '/../../uploads/fonts/';
   $targetPath = $uploadDir . $fileName;
 
   // Move uploaded file

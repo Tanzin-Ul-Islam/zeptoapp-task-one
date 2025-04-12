@@ -1,7 +1,7 @@
 <?php
-require_once __DIR__ . '/../config/headers.php';
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../config/db_helper.php';
+require_once __DIR__ . '/../../config/headers.php';
+require_once __DIR__ . '/../../config/database.php';
+require_once __DIR__ . '/../../config/db_helper.php';
 
 handlePreflight();
 setCorsHeaders();
@@ -12,7 +12,7 @@ try {
     $stmt = $db->query("SELECT * FROM fonts");
     $fonts = $stmt->fetchAll(PDO::FETCH_ASSOC);
     foreach ($fonts as &$font) {
-        $font['file_path'] = 'http://localhost:8000/api/serve_font.php?file=' . basename($font['file_path']);
+        $font['file_path'] = 'http://localhost:8000/api/font/serve_font.php?file=' . basename($font['file_path']);
     }
     echo json_encode([
         'success' => true,

@@ -16,11 +16,11 @@ export async function getData({ url }) {
   return await response.json();
 }
 
-export async function postFormData({ url, formData }) {
+export async function postData({ url, payLoad }) {
   const fullUrl = constants.BASE_URL + url;
   const response = await fetch(fullUrl, {
     method: "POST",
-    body: formData,
+    body: payLoad,
   });
 
   return await response.json();

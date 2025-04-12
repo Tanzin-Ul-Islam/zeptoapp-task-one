@@ -1,7 +1,7 @@
 <?php
-require_once __DIR__ . '/../config/headers.php';
-require_once __DIR__ . '/../config/db_helper.php';
-require_once __DIR__ . '/../config/db_helper.php';
+require_once __DIR__ . '/../../config/headers.php';
+require_once __DIR__ . '/../../config/db_helper.php';
+require_once __DIR__ . '/../../config/db_helper.php';
 
 setJsonHeaders();
 handlePreflight();
@@ -19,7 +19,7 @@ if (!$id || !is_numeric($id)) {
 
 try {
   $db = getDbConnection();
-  $uploadDir = realpath(__DIR__ . '/../uploads/fonts');
+  $uploadDir = realpath(__DIR__ . '/../../uploads/fonts');
   $db->beginTransaction();
 
   $stmt = $db->prepare('SELECT file_path FROM fonts WHERE id = ? for update');
@@ -32,7 +32,7 @@ try {
     echo json_encode(['success' => false, 'message' => 'Font not found']);
     exit;
   }
-  $fileToDelete = realpath(__DIR__ . '/..' . $font['file_path']);
+  $fileToDelete = realpath(__DIR__ . '/../..' . $font['file_path']);
   if (!$fileToDelete || strpos($fileToDelete, $uploadDir) !== 0) {
     $db->rollBack();
     http_response_code(403);

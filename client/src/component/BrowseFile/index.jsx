@@ -63,9 +63,15 @@ const FileUpload = () => {
 
     mutate(formData, {
       onSuccess: (data) => {
-        console.log('data in upf', data)
-        Toast("success", "File uploaded successfully");
-        handleClearFile();
+        if (data?.success) {
+          Toast("success", "File uploaded successfully");
+          handleClearFile();
+        } else {
+          Toast(
+            "error",
+            data?.message || "Something went wrong. Please try again."
+          );
+        }
       },
       onError: () => {
         Toast("error", "Something went wrong. Please try again.");
@@ -76,10 +82,11 @@ const FileUpload = () => {
   return (
     <div className="flex flex-col items-center justify-center p-4 w-full">
       <div
-        className={`w-[70%] mx-auto border-2 border-dashed rounded-lg p-12 text-center transition-colors ${isDragging
+        className={`w-[70%] mx-auto border-2 border-dashed rounded-lg p-12 text-center transition-colors ${
+          isDragging
             ? "border-blue-500 bg-blue-50"
             : "border-gray-300 hover:border-gray-400"
-          }`}
+        }`}
         onDragEnter={handleDragEnter}
         onDragLeave={handleDragLeave}
         onDragOver={handleDragOver}

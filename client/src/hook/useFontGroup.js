@@ -1,34 +1,33 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { deleteData, getData, postData } from "../api/api-core";
+import { deleteData, getData, postFormData } from "../api/api-core";
 import api from "../api/api.json";
 
-const useFont = () => {
-  const fetchFonts = async ({ queryKey }) => {
+const useFontGroup = () => {
+  const fetchFontGroups = async ({ queryKey }) => {
     const [_key] = queryKey;
     let url = api.getAllFonts;
     return await getData({ url });
   };
-  const postFont = async (formData) => {
+  const postFontGroup = async (payload) => {
     let url = api.createFonts;
-    return await postData({ url, formData });
+    return await postFormData({ url, payload });
   };
-  const deleteFont = async (id) => {
+  const deleteFontGroup = async (id) => {
     let url = api.deleteFonts;
     return await deleteData({ url, id });
   };
 
   const useFontQuery = useQuery({
-    queryKey: ["font"],
-    queryFn: fetchFonts,
+    queryKey: ["font_group"],
+    queryFn: fetchFontGroups,
     keepPreviousData: true,
   });
-  const usePostFont = () => {
+  const usePostFontGroupQuery = () => {
     const queryClient = useQueryClient();
-
     return useMutation({
-      mutationFn: postFont,
+      mutationFn: postFontGroup,
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["font"] });
+        queryClient.invalidateQueries({ queryKey: ["font_group"] });
       },
       onError: (error) => {
         console.error('Font upload error:', error);
@@ -36,10 +35,10 @@ const useFont = () => {
     });
   };
 
-  const useDeleteFont = () => {
+  const useDeleteFontGroup = () => {
     const queryClient = useQueryClient();
     return useMutation({
-      mutationFn: deleteFont,
+      mutationFn: deleteFontGroup,
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["font"] });
       },
@@ -48,9 +47,9 @@ const useFont = () => {
 
   return {
     useFontQuery,
-    usePostFont,
-    useDeleteFont,
+    usePostFontGroupQuery,
+    useDeleteFontGroup,
   };
 };
 
-export default useFont;
+export default useFontGroup;

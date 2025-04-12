@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../config/headers.php';
+require_once __DIR__ . '/../../config/headers.php';
 
 setCorsHeaders();
 handlePreflight();
@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 // Security checks
 $requestedFile = $_GET['file'] ?? '';
-$fontPath = __DIR__ . '/../uploads/fonts/' . basename($requestedFile);
+$fontPath = __DIR__ . '/../../uploads/fonts/' . basename($requestedFile);
 
 if (!file_exists($fontPath)) {
     http_response_code(404);

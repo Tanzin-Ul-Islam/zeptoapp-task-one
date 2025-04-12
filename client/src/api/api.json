@@ -1,7 +1,6 @@
 
 {
-    "baseUrl": "http://localhost:8000",
-    "createFonts": "/create_font.php",
-    "getAllFonts": "/get_all_fonts.php",
-    "deleteFonts": "/delete_font.php"
+    "createFonts": "/font/create_font.php",
+    "getAllFonts": "/font/get_all_fonts.php",
+    "deleteFonts": "/font/delete_font.php"
 }

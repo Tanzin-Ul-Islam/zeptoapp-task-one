@@ -1,6 +1,6 @@
-import Swal, { SweetAlertIcon } from "sweetalert2";
+import Swal from "sweetalert2";
 
-export default async function Toast(icon: SweetAlertIcon, title: string) {
+export default async function Toast(icon, title) {
   const Toast = Swal.mixin({
     toast: true,
     position: "top-right",

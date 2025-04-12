@@ -30,6 +30,9 @@ const useFont = () => {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["font"] });
       },
+      onError: (error) => {
+        console.error('Font upload error:', error);
+      }
     });
   };
 

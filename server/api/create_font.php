@@ -10,8 +10,6 @@ setCorsHeaders();
 // Set JSON headers for API responses
 setJsonHeaders();
 
-echo "test";
-
 // Create uploads directory if it doesn't exist
 if (!file_exists(__DIR__ . '/../uploads/fonts')) {
   mkdir(__DIR__ . '/../uploads/fonts', 0777, true);
@@ -28,12 +26,21 @@ try {
   $fontName = $_POST['fontName'] ?? null;
   $fontFile = $_FILES['fontFile'] ?? null;
 
-  echo $fontName;
-  echo $fontFile;
-
   if (!$fontName || !$fontFile) {
     http_response_code(400);
     echo json_encode(['success' => false, 'message' => 'fontName and fontFile are required']);
+    exit;
+  }
+
+  // Check for duplicate font name
+  $db = getDbConnection();
+  $checkStmt = $db->prepare("SELECT COUNT(*) FROM fonts WHERE font_name = ?");
+  $checkStmt->execute([$fontName]);
+  $count = $checkStmt->fetchColumn();
+  
+  if ($count > 0) {
+    http_response_code(400);
+    echo json_encode(['success' => false, 'message' => 'A font with this name already exists']);
     exit;
   }
 
@@ -61,9 +68,7 @@ try {
     echo json_encode(['success' => false, 'message' => 'File upload failed']);
     exit;
   }
-
-  // Save to database
-  $db = getDbConnection();
+  
   $stmt = $db->prepare("INSERT INTO fonts (font_name, file_path) VALUES (?, ?)");
   $stmt->execute([$fontName, $filePath]);
 

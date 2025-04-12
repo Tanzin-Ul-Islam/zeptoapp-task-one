@@ -13,7 +13,7 @@ export async function getData({ url }) {
     throw new Error("Failed to fetch data");
   }
 
-  return response.json();
+  return await response.json();
 }
 
 export async function postFormData({ url, formData }) {
@@ -23,9 +23,8 @@ export async function postFormData({ url, formData }) {
     body: formData,
   });
 
-  if (!response.ok) {
-    throw new Error("Failed to post data");
-  }
+  return await response.json();
+
 }
 
 export async function deleteData({ url, id }) {

@@ -6,7 +6,6 @@ import Toast from "../utils/toast";
 export default function Home() {
   const { useFontQuery, useDeleteFont } = useFont();
   const { data, isLoading, isError } = useFontQuery;
-  console.log(data);
   const { data: fonts = [] } = data || {};
   const { mutate: deleteFont } = useDeleteFont();
   const handleDeleteFont = (id) => {

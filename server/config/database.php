@@ -3,7 +3,8 @@ class Database {
     private $host = 'localhost';
     private $db_name = 'font_system';
     private $username = 'root';
-    private $password = 'root';
+    private $password = '';
+    // private $password = 'root';
     private $conn;
 
     public function connect() {

@@ -1,15 +1,13 @@
 import React from "react";
-import useFont from "../../hook/useFont";
 import Toast from "../../utils/toast";
-import DisplayFont from "../DisplayFont";
 import useFontGroup from "../../hook/useFontGroup";
 
 export default function DisplayFontGroupList({ fontGroupList }) {
   const { useDeleteFontGroup } = useFontGroup();
   const { mutate: deleteFontGroup } = useDeleteFontGroup();
   const getFontsNameToDisplay = (list) => {
-    return list?.map(font => font.font_name).join(', ');
-  }
+    return list?.map((font) => font.font_name).join(", ");
+  };
   const handleDeleteGroup = (id) => {
     deleteFontGroup(id, {
       onSuccess: () => {
@@ -29,30 +27,38 @@ export default function DisplayFontGroupList({ fontGroupList }) {
         List of all available font groups.
       </p>
 
-      <div class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-gray-200 text-sm">
-          <thead class="bg-gray-100 text-gray-600">
+      <div className="overflow-x-auto">
+        <table className="min-w-full divide-y divide-gray-200 text-sm">
+          <thead className="bg-gray-100 text-gray-600">
             <tr>
-              <th class="text-left px-4 py-2 font-medium">Name</th>
-              <th class="text-left px-4 py-2 font-medium">Fonts</th>
-              <th class="text-left px-4 py-2 font-medium">Count</th>
-              <th class="px-4 py-2"></th>
+              <th className="text-left px-4 py-2 font-medium">Name</th>
+              <th className="text-left px-4 py-2 font-medium">Fonts</th>
+              <th className="text-left px-4 py-2 font-medium">Count</th>
+              <th className="px-4 py-2"></th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-gray-200 text-gray-700">
+          <tbody className="divide-y divide-gray-200 text-gray-700">
             {fontGroupList.map((group, index) => (
               <tr key={index}>
-                <td class="px-4 py-2 font-semibold">{group?.name}</td>
-                <td class="px-4 py-2">{getFontsNameToDisplay(group?.fonts)}</td>
-                <td class="px-4 py-2">{group?.fonts?.length}</td>
-                <td class="px-4 py-2 space-x-2">
-                  <a href="#" class="text-blue-600 hover:underline">Edit</a>
-                  <a href="#" onClick={() => handleDeleteGroup(group?.id)} class="text-red-600 hover:underline">Delete</a>
+                <td className="px-4 py-2 font-semibold">{group?.name}</td>
+                <td className="px-4 py-2">
+                  {getFontsNameToDisplay(group?.fonts)}
+                </td>
+                <td className="px-4 py-2">{group?.fonts?.length}</td>
+                <td className="px-4 py-2 space-x-2">
+                  <a href="#" className="text-blue-600 hover:underline">
+                    Edit
+                  </a>
+                  <a
+                    href="#"
+                    onClick={() => handleDeleteGroup(group?.id)}
+                    className="text-red-600 hover:underline"
+                  >
+                    Delete
+                  </a>
                 </td>
               </tr>
             ))}
-
-
           </tbody>
         </table>
       </div>

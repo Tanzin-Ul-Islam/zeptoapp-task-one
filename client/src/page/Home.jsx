@@ -2,9 +2,9 @@ import React from "react";
 import BrowseFile from "../component/BrowseFile";
 import useFont from "../hook/useFont";
 import DisplayFontList from "../component/DisplayFontList";
-import FontGroupForm from "../component/FontGroupForm";
 import DisplayFontGroupList from "../component/DisplayFontGroupList";
 import useFontGroup from "../hook/useFontGroup";
+import CreateFontGroup from "../component/CreateFontGroup";
 export default function Home() {
   const { useFontQuery } = useFont();
   const { useFontGroupQuery } = useFontGroup();
@@ -20,7 +20,7 @@ export default function Home() {
     <div>
       <BrowseFile />
       <DisplayFontList fonts={fonts || []} />
-      <FontGroupForm fontList={fonts || []} />
+      <CreateFontGroup fontList={fonts || []} />
       <DisplayFontGroupList fontGroupList={fontGroupList || []} />
     </div>
   );

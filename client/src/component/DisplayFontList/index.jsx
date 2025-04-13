@@ -17,7 +17,7 @@ export default function DisplayFontList({ fonts }) {
     });
   };
   return (
-    <div className="w-full md:w-[69%] mx-auto border-2 p-4 sm:p-6 overflow-x-auto mb-4 sm:mb-6">
+    <div className="w-full md:w-[69%] mx-auto border-2 p-4 sm:p-6 overflow-x-auto mb-4">
       <h1 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6">
         Our Fonts
       </h1>

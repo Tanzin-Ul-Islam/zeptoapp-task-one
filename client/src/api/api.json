@@ -3,6 +3,7 @@
     "createFontGroup": "/font_group/create.php",
     "getAllFonts": "/font/get_all_fonts.php",
     "getAllFontGroup": "/font_group/get_all.php",
+    "updateFontGroup": "/font_group/edit.php",
     "deleteFonts": "/font/delete_font.php",
     "deleteFontGroup": "/font_group/delete.php"
 }

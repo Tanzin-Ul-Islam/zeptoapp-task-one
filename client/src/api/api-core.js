@@ -17,7 +17,6 @@ export async function getData({ url }) {
 }
 
 export async function postData({ url, payLoad }) {
-  console.log('payLoad in fetch', payLoad)
   const fullUrl = constants.BASE_URL + url;
   const response = await fetch(fullUrl, {
     method: "POST",
@@ -25,7 +24,16 @@ export async function postData({ url, payLoad }) {
   });
 
   return await response.json();
+}
 
+export async function patchData({ url, payLoad }) {
+  const fullUrl = constants.BASE_URL + url;
+  const response = await fetch(fullUrl, {
+    method: "PATCH",
+    body: payLoad,
+  });
+
+  return await response.json();
 }
 
 export async function deleteData({ url, id }) {

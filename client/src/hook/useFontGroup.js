@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { deleteData, getData, postData } from "../api/api-core";
+import { deleteData, getData, patchData, postData } from "../api/api-core";
 import api from "../api/api.json";
 
 const useFontGroup = () => {
@@ -10,7 +10,11 @@ const useFontGroup = () => {
   };
   const postFontGroup = async (payLoad) => {
     let url = api.createFontGroup;
-    return await postData({ url, payLoad: JSON.stringify(payLoad), });
+    return await postData({ url, payLoad: JSON.stringify(payLoad) });
+  };
+  const updateFontGroup = async (payLoad) => {
+    let url = api.updateFontGroup;
+    return await patchData({ url, payLoad: JSON.stringify(payLoad) });
   };
   const deleteFontGroup = async (id) => {
     let url = api.deleteFontGroup;
@@ -30,8 +34,20 @@ const useFontGroup = () => {
         queryClient.invalidateQueries({ queryKey: ["font_group"] });
       },
       onError: (error) => {
-        console.error('Font upload error:', error);
-      }
+        console.error("Font upload error:", error);
+      },
+    });
+  };
+  const useUpdateFontGroupQuery = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+      mutationFn: updateFontGroup,
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["font_group"] });
+      },
+      onError: (error) => {
+        console.error("Font upload error:", error);
+      },
     });
   };
 
@@ -48,6 +64,7 @@ const useFontGroup = () => {
   return {
     useFontGroupQuery,
     usePostFontGroupQuery,
+    useUpdateFontGroupQuery,
     useDeleteFontGroup,
   };
 };

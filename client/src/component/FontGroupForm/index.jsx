@@ -1,12 +1,36 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Toast from "../../utils/toast";
 import useFontGroup from "../../hook/useFontGroup";
-export default function FontGroupForm({ fontList }) {
-  const { usePostFontGroupQuery } = useFontGroup();
-  const { mutate, isPending, isSuccess, isError } = usePostFontGroupQuery();
+export default function FontGroupForm({
+  fontList,
+  isEdit = false,
+  onClose = () => {},
+  selectedGroup = {},
+}) {
+  const { usePostFontGroupQuery, useUpdateFontGroupQuery } = useFontGroup();
+
+  const { mutate, isPending, isSuccess } = usePostFontGroupQuery();
+  const {
+    mutate: updateMutate,
+    isPending: isUpdatePending,
+    isSuccess: isUpdateSuccess,
+  } = useUpdateFontGroupQuery();
 
   const [groupTitle, setGroupTitle] = useState("");
   const [fonts, setFonts] = useState([{ id: "", name: "" }]);
+  useEffect(() => {
+    if (selectedGroup?.name) {
+      setGroupTitle(selectedGroup?.name);
+    }
+    if (selectedGroup?.fonts?.length > 0) {
+      setFonts(
+        selectedGroup?.fonts.map((font) => ({
+          id: font.id,
+          name: font.font_name,
+        }))
+      );
+    }
+  }, [selectedGroup]);
 
   const handleChange = (index, value) => {
     const fontDetails = fontList.find((font) => font.id === value);
@@ -63,6 +87,7 @@ export default function FontGroupForm({ fontList }) {
           if (data?.success) {
             Toast("success", data?.message || "Group created successfully");
             handleClearFields();
+            onClose();
           } else {
             Toast(
               "error",
@@ -77,8 +102,40 @@ export default function FontGroupForm({ fontList }) {
     }
     return;
   };
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    if (isValid()) {
+      const payLoad = {
+        group_id: selectedGroup?.id,
+        name: groupTitle,
+        fonts: fonts.map((font) => font.id),
+      };
+      updateMutate(payLoad, {
+        onSuccess: (data) => {
+          if (data?.success) {
+            Toast("success", data?.message || "Group created successfully");
+            handleClearFields();
+            onClose();
+          } else {
+            Toast(
+              "error",
+              data?.message || "Something went wrong. Please try again."
+            );
+          }
+        },
+        onError: () => {
+          Toast("error", "Something went wrong. Please try again.");
+        },
+      });
+    }
+    return;
+  };
+
   return (
-    <form onSubmit={handleSubmit} className="p-4 sm:p-6">
+    <form
+      onSubmit={!isEdit ? handleSubmit : handleUpdate}
+      className="p-4 sm:p-6"
+    >
       <input
         type="text"
         placeholder="Group Title"
@@ -134,7 +191,6 @@ export default function FontGroupForm({ fontList }) {
         type="button"
         onClick={addRow}
         className="border border-green-600 text-green-600 hover:bg-green-100 px-4 py-1 rounded mb-4 text-sm"
-        disabled={fonts.length >= fontList.length}
       >
         + Add Row
       </button>
@@ -144,7 +200,7 @@ export default function FontGroupForm({ fontList }) {
           type="submit"
           className="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 text-sm sm:text-base"
         >
-          Create
+          {isEdit ? "Update" : "Create"}
         </button>
       </div>
     </form>

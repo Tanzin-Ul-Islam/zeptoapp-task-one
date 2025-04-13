@@ -31,8 +31,8 @@ const useFont = () => {
         queryClient.invalidateQueries({ queryKey: ["font"] });
       },
       onError: (error) => {
-        console.error('Font upload error:', error);
-      }
+        console.error("Font upload error:", error);
+      },
     });
   };
 
@@ -42,6 +42,7 @@ const useFont = () => {
       mutationFn: deleteFont,
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["font"] });
+        queryClient.invalidateQueries({ queryKey: ["font_group"] });
       },
     });
   };

@@ -29,22 +29,20 @@ export default function DisplayFontList({ fonts }) {
         <table className="min-w-full divide-y divide-gray-200 text-sm">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-4 py-2 sm:px-6 sm:py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-4 py-2 sm:px-6 sm:py-3 text-left text-xs sm:text-sm font-semibold text-gray-500 uppercase tracking-wider ">
                 Font Name
               </th>
-              <th className="px-4 py-2 sm:px-6 sm:py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-4 py-2 sm:px-6 sm:py-3 text-left text-xs sm:text-sm font-semibold text-gray-500 uppercase tracking-wider">
                 Preview
               </th>
-              <th className="px-4 py-2 sm:px-6 sm:py-3 text-right text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">
-                Action
-              </th>
+              <th className="px-4 py-2 sm:px-6 sm:py-3 text-right text-xs sm:text-sm text-gray-500 uppercase tracking-wider"></th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {fonts.map((font) => (
               <tr key={font.id}>
                 <td className="px-4 py-2 sm:px-6 sm:py-4 whitespace-nowrap text-sm sm:text-base">
-                  <div className="font-medium text-gray-900">
+                  <div className="font-semibold text-gray-900">
                     {font?.font_name || "No font name available"}
                   </div>
                 </td>

@@ -21,7 +21,7 @@ export default function Home() {
       <BrowseFile />
       <DisplayFontList fonts={fonts || []} />
       <CreateFontGroup fontList={fonts || []} />
-      <DisplayFontGroupList fontGroupList={fontGroupList || []} />
+      <DisplayFontGroupList fontList={fonts || []} fontGroupList={fontGroupList || []} />
     </div>
   );
 }

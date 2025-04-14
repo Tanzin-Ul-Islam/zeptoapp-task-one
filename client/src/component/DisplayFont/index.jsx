@@ -22,7 +22,7 @@ export default function DisplayFont({ font }) {
       className="text-gray-500"
       style={{
         fontFamily: `'${font.font_name}', sans-serif`,
-        fontSize: "16px",
+        fontSize: "20px",
       }}
     >
       The quick brown fox jumps over the lazy dog

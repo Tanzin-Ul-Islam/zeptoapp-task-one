@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Toast from "../../utils/toast";
 import useFontGroup from "../../hook/useFontGroup";
+import Loader from "../Loader";
 export default function FontGroupForm({
   fontList,
   isEdit = false,
@@ -8,13 +9,9 @@ export default function FontGroupForm({
   selectedGroup = {},
 }) {
   const { usePostFontGroupQuery, useUpdateFontGroupQuery } = useFontGroup();
-
-  const { mutate, isPending, isSuccess } = usePostFontGroupQuery();
-  const {
-    mutate: updateMutate,
-    isPending: isUpdatePending,
-    isSuccess: isUpdateSuccess,
-  } = useUpdateFontGroupQuery();
+  const { mutate } = usePostFontGroupQuery();
+  const [showLoader, setShowLoader] = useState(false);
+  const { mutate: updateMutate } = useUpdateFontGroupQuery();
 
   const [groupTitle, setGroupTitle] = useState("");
   const [fonts, setFonts] = useState([{ id: "", name: "" }]);
@@ -78,12 +75,14 @@ export default function FontGroupForm({
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isValid()) {
+      setShowLoader(true);
       const payLoad = {
         name: groupTitle,
         fonts: fonts.map((font) => font.id),
       };
       mutate(payLoad, {
         onSuccess: (data) => {
+          setShowLoader(false);
           if (data?.success) {
             Toast("success", data?.message || "Group created successfully");
             handleClearFields();
@@ -96,6 +95,7 @@ export default function FontGroupForm({
           }
         },
         onError: () => {
+          setShowLoader(false);
           Toast("error", "Something went wrong. Please try again.");
         },
       });
@@ -105,6 +105,7 @@ export default function FontGroupForm({
   const handleUpdate = (e) => {
     e.preventDefault();
     if (isValid()) {
+      setShowLoader(true);
       const payLoad = {
         group_id: selectedGroup?.id,
         name: groupTitle,
@@ -112,6 +113,7 @@ export default function FontGroupForm({
       };
       updateMutate(payLoad, {
         onSuccess: (data) => {
+          setShowLoader(false);
           if (data?.success) {
             Toast("success", data?.message || "Group created successfully");
             handleClearFields();
@@ -124,6 +126,7 @@ export default function FontGroupForm({
           }
         },
         onError: () => {
+          setShowLoader(false);
           Toast("error", "Something went wrong. Please try again.");
         },
       });
@@ -132,77 +135,80 @@ export default function FontGroupForm({
   };
 
   return (
-    <form
-      onSubmit={!isEdit ? handleSubmit : handleUpdate}
-      className="p-4 sm:p-6"
-    >
-      <input
-        type="text"
-        placeholder="Group Title"
-        value={groupTitle}
-        onChange={(e) => setGroupTitle(e.target.value)}
-        className="w-full mb-4 p-2 border rounded text-sm sm:text-base"
-      />
-
-      {fonts.map((font, index) => (
-        <div
-          key={index}
-          className="w-full flex flex-wrap sm:flex-nowrap items-center gap-2 mb-3 border rounded-lg p-2 sm:h-[50px]"
-        >
-          <span className="w-6 text-center font-semibold">{index + 1}</span>
-          <input
-            type="text"
-            placeholder="Font Name"
-            value={font.name}
-            onChange={(e) => handleChange(index, Number(e.target.value))}
-            className="flex-1 min-w-[120px] p-2 border rounded text-sm pointer-events-none"
-          />
-          <select
-            value={font?.id ?? ""}
-            onChange={(e) => handleChange(index, Number(e.target.value))}
-            className="flex-1 min-w-[120px] p-2 border rounded text-sm"
-          >
-            <option value="" hidden>
-              Select a Font
-            </option>
-            {fontList.map((fontItem, index) => (
-              <option
-                key={index}
-                value={fontItem.id}
-                disabled={fonts.some((f) => f.id === fontItem.id)}
-              >
-                {fontItem.font_name}
-              </option>
-            ))}
-          </select>
-          {fonts.length > 1 && (
-            <button
-              type="button"
-              onClick={() => removeRow(index)}
-              className="text-red-500 hover:text-red-700 text-xl"
-            >
-              &times;
-            </button>
-          )}
-        </div>
-      ))}
-
-      <button
-        type="button"
-        onClick={addRow}
-        className="border border-green-600 text-green-600 hover:bg-green-100 px-4 py-1 rounded mb-4 text-sm"
+    <>
+      {showLoader && <Loader />}
+      <form
+        onSubmit={!isEdit ? handleSubmit : handleUpdate}
+        className="p-4 sm:p-6"
       >
-        + Add Row
-      </button>
+        <input
+          type="text"
+          placeholder="Group Title"
+          value={groupTitle}
+          onChange={(e) => setGroupTitle(e.target.value)}
+          className="w-full mb-4 p-2 border rounded text-sm sm:text-base"
+        />
 
-      <div className="text-right">
+        {fonts.map((font, index) => (
+          <div
+            key={index}
+            className="w-full flex flex-wrap sm:flex-nowrap items-center gap-2 mb-3 border rounded-lg p-2 sm:h-[50px]"
+          >
+            <span className="w-6 text-center font-semibold">{index + 1}</span>
+            <input
+              type="text"
+              placeholder="Font Name"
+              value={font.name}
+              onChange={(e) => handleChange(index, Number(e.target.value))}
+              className="flex-1 min-w-[120px] p-2 border rounded text-sm pointer-events-none"
+            />
+            <select
+              value={font?.id ?? ""}
+              onChange={(e) => handleChange(index, Number(e.target.value))}
+              className="flex-1 min-w-[120px] p-2 border rounded text-sm"
+            >
+              <option value="" hidden>
+                Select a Font
+              </option>
+              {fontList.map((fontItem, index) => (
+                <option
+                  key={index}
+                  value={fontItem.id}
+                  disabled={fonts.some((f) => f.id === fontItem.id)}
+                >
+                  {fontItem.font_name}
+                </option>
+              ))}
+            </select>
+            {fonts.length > 1 && (
+              <button
+                type="button"
+                onClick={() => removeRow(index)}
+                className="text-red-500 hover:text-red-700 text-xl"
+              >
+                &times;
+              </button>
+            )}
+          </div>
+        ))}
+
         <button
-          type="submit"
-          className="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 text-sm sm:text-base"
+          type="button"
+          onClick={addRow}
+          className="border border-green-600 text-green-600 hover:bg-green-100 px-4 py-1 rounded mb-4 text-sm"
         >
-          {isEdit ? "Update" : "Create"}
+          + Add Row
         </button>
-      </div>
-    </form>
+
+        <div className="text-right">
+          <button
+            type="submit"
+            className="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 text-sm sm:text-base"
+          >
+            {isEdit ? "Update" : "Create"}
+          </button>
+        </div>
+      </form>
+    </>
   );
 }

@@ -3,7 +3,7 @@ require_once __DIR__ . '/database.php';
 
 function getDbConnection()
 {
-    static $db = null; // Persistent connection
+    static $db = null;
 
     if ($db === null) {
         try {

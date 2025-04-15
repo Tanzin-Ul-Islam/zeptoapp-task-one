@@ -2,9 +2,8 @@
 class Database {
     private $host = 'localhost';
     private $db_name = 'font_system';
-    private $username = 'root';
-    // private $password = '';
-    private $password = 'root';
+    private $username = ''; // Set your database username here
+    private $password = ''; // Set your database password here
     private $conn;
 
     public function connect() {

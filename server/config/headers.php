@@ -1,5 +1,4 @@
 <?php
-// Standard headers for all API responses
 function setJsonHeaders() {
     header("Content-Type: application/json");
     header("Access-Control-Allow-Origin: *");

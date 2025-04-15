@@ -3,20 +3,16 @@ require_once __DIR__ . '/../../config/headers.php';
 require_once __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../../config/db_helper.php';
 
-// Handle preflight requests first
+
 handlePreflight();
-// Set CORS headers for all requests
 setCorsHeaders();
-// Set JSON headers for API responses
 setJsonHeaders();
 
-// Create uploads directory if it doesn't exist
 if (!file_exists(__DIR__ . '/../../uploads/fonts')) {
   mkdir(__DIR__ . '/../../uploads/fonts', 0777, true);
 }
 
 try {
-  // Validate input
   if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     echo json_encode(['success' => false, 'message' => 'Method not allowed']);
@@ -32,7 +28,6 @@ try {
     exit;
   }
 
-  // Check for duplicate font name
   $db = getDbConnection();
   $checkStmt = $db->prepare("SELECT COUNT(*) FROM fonts WHERE font_name = ?");
   $checkStmt->execute([$fontName]);
@@ -44,7 +39,6 @@ try {
     exit;
   }
 
-  // Validate file type (TTF) - using file extension instead of mime_content_type
   $fileExt = strtolower(pathinfo($fontFile['name'], PATHINFO_EXTENSION));
   $allowedExtensions = ['ttf', 'otf'];
   
@@ -54,15 +48,12 @@ try {
     exit;
   }
 
-  // Generate unique filename
   $fileName = uniqid('font_') . '.' . $fileExt;
   $filePath = '/uploads/fonts/' . $fileName;
   
-  // Correct path for file upload
   $uploadDir = __DIR__ . '/../../uploads/fonts/';
   $targetPath = $uploadDir . $fileName;
 
-  // Move uploaded file
   if (!move_uploaded_file($fontFile['tmp_name'], $targetPath)) {
     http_response_code(500);
     echo json_encode(['success' => false, 'message' => 'File upload failed']);

@@ -5,6 +5,7 @@ import FontGroupModal from "../FontGroupModal";
 import ListSkeleton from "../skeleton/ListSkeleton";
 import { HiOutlineEmojiSad } from "react-icons/hi";
 import Loader from "../Loader";
+import { confirmationDialog } from "../../utils/ConfirmationDialog";
 
 export default function DisplayFontGroupList({
   isFontGroupLoading,
@@ -27,18 +28,24 @@ export default function DisplayFontGroupList({
     setIsModalOpen(false);
     setSelectedGroup({});
   };
-  const handleDeleteGroup = (id) => {
-    setShowLoader(true);
-    deleteFontGroup(id, {
-      onSuccess: () => {
-        setShowLoader(false);
-        Toast("success", "Group deleted successfully");
-      },
-      onError: () => {
-        setShowLoader(false);
-        Toast("error", "Something went wrong. Please try again.");
-      },
+  const handleDeleteGroup = async (id) => {
+    const result = await confirmationDialog({
+      title: "Delete font group?",
+      text: "This font group will be permanently removed",
     });
+    if (result.isConfirmed) {
+      setShowLoader(true);
+      deleteFontGroup(id, {
+        onSuccess: () => {
+          setShowLoader(false);
+          Toast("success", "Group deleted successfully");
+        },
+        onError: () => {
+          setShowLoader(false);
+          Toast("error", "Something went wrong. Please try again.");
+        },
+      });
+    }
   };
   return (
     <>

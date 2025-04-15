@@ -5,22 +5,29 @@ import DisplayFont from "../DisplayFont";
 import ListSkeleton from "../skeleton/ListSkeleton";
 import { HiOutlineEmojiSad } from "react-icons/hi";
 import Loader from "../Loader";
+import { confirmationDialog } from "../../utils/ConfirmationDialog";
 export default function DisplayFontList({ isLoading, fonts }) {
   const { useDeleteFontQuery } = useFont();
   const { mutate: deleteFont } = useDeleteFontQuery();
   const [showLoader, setShowLoader] = useState(false);
-  const handleDeleteFont = (id) => {
-    setShowLoader(true);
-    deleteFont(id, {
-      onSuccess: () => {
-        setShowLoader(false);
-        Toast("success", "Font deleted successfully");
-      },
-      onError: () => {
-        setShowLoader(false);
-        Toast("error", "Something went wrong. Please try again.");
-      },
+  const handleDeleteFont = async (id) => {
+    const result = await confirmationDialog({
+      title: "Delete font?",
+      text: "This font will be permanently removed",
     });
+    if (result.isConfirmed) {
+      setShowLoader(true);
+      deleteFont(id, {
+        onSuccess: () => {
+          setShowLoader(false);
+          Toast("success", "Font deleted successfully");
+        },
+        onError: () => {
+          setShowLoader(false);
+          Toast("error", "Something went wrong. Please try again.");
+        },
+      });
+    }
   };
   return (
     <>

@@ -8,12 +8,7 @@ setCorsHeaders();
 
 try {
     $db = getDbConnection();
-
-    // Get all font groups
-    $groups = $db->query("SELECT * FROM font_groups ORDER BY created_at DESC")
-                ->fetchAll(PDO::FETCH_ASSOC);
-
-    // Get fonts for each group
+    $groups = $db->query("SELECT * FROM font_groups ORDER BY created_at DESC")->fetchAll(PDO::FETCH_ASSOC);
     foreach ($groups as &$group) {
         $stmt = $db->prepare("
             SELECT f.* 
@@ -30,8 +25,7 @@ try {
         'success' => true,
         'data' => $groups
     ]);
-
-} catch(PDOException $e) {
+} catch (PDOException $e) {
     http_response_code(500);
     echo json_encode([
         'success' => false,
